@@ -37,4 +37,14 @@ public class ReactionService {
 	public Object getByOnlyId(Integer id) {
 		return reactionrepo.findById(id);
 	}
+	public Object update(@PathVariable Integer id, Reaction reaction) {
+		Reaction existingReaction = reactionrepo.findById(id).orElse(null);
+		if (existingReaction != null) {
+			existingReaction.setComment(reaction.getComment());
+			existingReaction.setDate(reaction.getDate());
+			existingReaction.setHobby(reaction.getHobby());
+			return reactionrepo.save(existingReaction);
+		}
+		return null;
+	}
 } 

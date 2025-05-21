@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.devProject.entities.Education;
-import com.example.devProject.entities.Reaction;
 import com.example.devProject.service.EducationService;
 @RestController
 @RequestMapping("education")

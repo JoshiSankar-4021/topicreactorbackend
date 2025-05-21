@@ -2,7 +2,6 @@ package com.example.devProject.controller;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,7 +52,7 @@ public class RegistrationController {
 		 Registration registration = registrationService.read(id);
 		 if (registration.getProfileImagePath() != null) {
 	            try {
-	                byte[] imageData = Files.readAllBytes(Paths.get(registration.getProfileImagePath()));
+	                byte[] imageData = Files.readAllBytes(Path.of(registration.getProfileImagePath()));
 	                registration.setProfileImage(imageData);
 	            } catch (IOException e) {
 	                e.printStackTrace();
@@ -85,7 +84,7 @@ public class RegistrationController {
 
         if (registration.getProfileImagePath() != null) {
             try {
-                Path imagePath = Paths.get(registration.getProfileImagePath());
+                Path imagePath = Path.of(registration.getProfileImagePath());
                 byte[] imageBytes = Files.readAllBytes(imagePath);
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.IMAGE_PNG);

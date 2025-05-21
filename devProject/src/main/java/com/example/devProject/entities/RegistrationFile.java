@@ -25,4 +25,46 @@ public class RegistrationFile {
     @ManyToOne
     @JoinColumn(name = "registration_id", nullable = false)
     private Registration registration;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
+    public String getOriginalName() {
+        return originalName;
+    }
+
+    public void setOriginalName(String originalName) {
+        this.originalName = originalName;
+    }
+
+    public String getFilePath() {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath) {
+        this.filePath = filePath;
+    }
+
+    public Registration getRegistration() {
+        return registration;
+    }
+
+    public void setRegistration(Registration registration) {
+        this.registration = registration;
+    }
+
+    
 }

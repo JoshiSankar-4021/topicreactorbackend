@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -62,7 +61,7 @@ public class RegisrterationService {
 	public Object save(Registration registration, MultipartFile profileImage,List<MultipartFile> additionalFiles) throws IOException {
         if (profileImage != null && !profileImage.isEmpty()) {
             String fileName = System.currentTimeMillis() + "_" + profileImage.getOriginalFilename();
-            Path filePath = Paths.get(uploadDir, fileName);
+            Path filePath = Path.of(uploadDir, fileName);
             File directory = new File(uploadDir);
             if (!directory.exists()) {
                 directory.mkdirs();
@@ -71,27 +70,27 @@ public class RegisrterationService {
             registration.setProfileImagePath(filePath.toString());
         }
        // Registration savedRegistration = registrationRepo.save(registration);
-//        	registrationRepo.saveuser(registration.getFirstName(),
-//        		registration.getLastName(),registration.getPhnum(),registration.getAddress(),registration.getGender(),
-//        		registration.getPassword(),registration.getphysicallyHandicaped(),registration.getlegalIssues(),
-//        		registration.getDob(),registration.getAge(),registration.getEducation(),registration.getEmail(),registration.getProfileImagePath());
+        	registrationRepo.saveuser(registration.getFirstName(),
+        		registration.getLastName(),registration.getPhnum(),registration.getAddress(),registration.getGender(),
+        		registration.getPassword(),registration.getphysicallyHandicaped(),registration.getlegalIssues(),
+        		registration.getDob(),registration.getAge(),registration.getEducation(),registration.getEmail(),registration.getProfileImagePath());
         		registrationRepo.saveuser(registration);
         if (additionalFiles != null && !additionalFiles.isEmpty()) {
             for (MultipartFile file : additionalFiles) {
                 if (!file.isEmpty()) {
                     String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-                    Path filePath = Paths.get(uploadDir, fileName);
+                    Path filePath = Path.of(uploadDir, fileName);
                     Files.write(filePath, file.getBytes());
                 	RegistrationFile registrationFile = new RegistrationFile();
-                	registrationFile.setOriginalName(file.getOriginalFilename());
+                	 registrationFile.setOriginalName(file.getOriginalFilename());
                     registrationFile.setFileName(fileName);
                     registrationFile.setFilePath(filePath.toString());
                     //registrationFile.setRegistration(userId);
                 	Integer userId = registrationRepo.getIdByEmail(registration.getEmail());
 
-                    //registerFilesRepo.save(registrationFile);
+                    registerFilesRepo.save(registrationFile);
                     registerFilesRepo.saveFiles(registrationFile.getFileName(), 
-                    		registrationFile.getOriginalName(), registrationFile.getFilePath(), userId);
+                    registrationFile.getOriginalName(), registrationFile.getFilePath(), userId);
                 }
             }
         }
@@ -131,7 +130,7 @@ public class RegisrterationService {
 
 			    String newFileName = System.currentTimeMillis() + "_" + profileImage.getOriginalFilename();
 			    if (existingProfileImagePath == null || !existingProfileImagePath.endsWith(newFileName)) {
-			        Path newFilePath = Paths.get(uploadDir, newFileName);
+			        Path newFilePath = Path.of(uploadDir, newFileName);
 			        File directory = new File(uploadDir);
 			        if (!directory.exists()) {
 			            directory.mkdirs();
@@ -160,10 +159,10 @@ public class RegisrterationService {
 			 registration.setEmail(registration.getEmail() !=null ? registration.getEmail():userDetails.getEmail());
 			 registration.setProfileImagePath(registration.getProfileImagePath() !=null ? registration.getProfileImagePath():userDetails.getProfileImagePath());
 			 
-//			registrationRepo.updateUser(id,registration.getFirstName(),
-//			registration.getLastName(),registration.getPhnum(),registration.getAddress(),
-//			registration.getGender(),registration.getPassword(),registration.getphysicallyHandicaped(),registration.getlegalIssues(),
-//			registration.getDob(),registration.getAge(),registration.getEducation(),registration.getEmail(),registration.getProfileImagePath());
+			registrationRepo.updateUser(id,registration.getFirstName(),
+			registration.getLastName(),registration.getPhnum(),registration.getAddress(),
+			registration.getGender(),registration.getPassword(),registration.getphysicallyHandicaped(),registration.getlegalIssues(),
+			registration.getDob(),registration.getAge(),registration.getEducation(),registration.getEmail(),registration.getProfileImagePath());
 			
 			 registrationRepo.updateUser(registration);
 			 
@@ -171,16 +170,16 @@ public class RegisrterationService {
 			        for (MultipartFile file : additionalFiles) {
 			            if (!file.isEmpty()) {
 			                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
-			                Path filePath = Paths.get(uploadDir, fileName);
+			                Path filePath = Path.of(uploadDir, fileName);
 			                Files.write(filePath, file.getBytes());
 
 			                RegistrationFile registrationFile = new RegistrationFile();
-			                registrationFile.setOriginalName(file.getOriginalFilename());
-			                registrationFile.setFileName(fileName);
-			                registrationFile.setFilePath(filePath.toString());
+			                // registrationFile.setOriginalName(file.getOriginalFilename());
+			                // registrationFile.setFileName(fileName);
+			                // registrationFile.setFilePath(filePath.toString());
 
-			                registerFilesRepo.saveFiles(registrationFile.getFileName(),registrationFile.getOriginalName(),
-			                   registrationFile.getFilePath(),id);
+			                // registerFilesRepo.saveFiles(registrationFile.getFileName(),registrationFile.getOriginalName(),
+			                //    registrationFile.getFilePath(),id);
 			            }
 			        }
 			    }
@@ -422,10 +421,9 @@ public class RegisrterationService {
 		    Drawing<?> drawing = sheet.getDrawingPatriarch();
 
 		    if (drawing != null) {
-		    	if(drawing instanceof XSSFDrawing) {
-		    		for (Object shape : ((XSSFDrawing) drawing).getShapes()) {
-			            if (shape instanceof XSSFPicture) {
-			                XSSFPicture picture = (XSSFPicture) shape;
+		    	if(drawing instanceof XSSFDrawing fDrawing) {
+		    		for (Object shape : fDrawing.getShapes()) {
+			            if (shape instanceof XSSFPicture picture) {
 			                XSSFClientAnchor anchor = picture.getClientAnchor();
 			                if(anchor.getRow1()==0) {
 				                String cellKey = anchor.getRow1()+1 + "_" + anchor.getCol1();
@@ -451,8 +449,7 @@ public class RegisrterationService {
 		    Map<String,HSSFPictureData> imageMap1 =new HashMap<>();
 		    Drawing<?> drawing = sheet.getDrawingPatriarch();
 		    		for (HSSFShape shape : ((HSSFPatriarch) drawing).getChildren()) {
-		    			if (shape instanceof HSSFPicture) {
-		    			    HSSFPicture picture = (HSSFPicture) shape;
+		    			if (shape instanceof HSSFPicture picture) {
 		    			    HSSFClientAnchor anchor = (HSSFClientAnchor) picture.getAnchor();
 		    			    if(anchor.getRow1()==0) {
 		    			    	String cellKey = anchor.getRow1()+1 + "_" + anchor.getCol1();

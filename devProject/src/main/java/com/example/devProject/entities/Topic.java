@@ -6,12 +6,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
-@Setter
-@Getter
+
 public class Topic {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +17,46 @@ public class Topic {
 	Integer creatorId;	
 	String reason;
 	Date date;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getTopicName() {
+        return topicName;
+    }
+
+    public void setTopicName(String topicName) {
+        this.topicName = topicName;
+    }
+
+    public Integer getCreatorId() {
+        return creatorId;
+    }
+
+    public void setCreatorId(Integer creatorId) {
+        this.creatorId = creatorId;
+    }
+
+    public String getReason() {
+        return reason;
+    }
+
+    public void setReason(String reason) {
+        this.reason = reason;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+
 }

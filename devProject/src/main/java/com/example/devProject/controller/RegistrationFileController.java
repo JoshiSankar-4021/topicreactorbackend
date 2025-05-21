@@ -2,7 +2,6 @@ package com.example.devProject.controller;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class RegistrationFileController {
 	}
 	@GetMapping("/download/{fileName}")
 	public ResponseEntity<Resource> downloadFile(@PathVariable String fileName) throws MalformedURLException, FileNotFoundException{
-		Path filePath = Paths.get(uploadDir).resolve(fileName).normalize();; 
+		Path filePath = Path.of(uploadDir).resolve(fileName).normalize();; 
 		Resource resource =new UrlResource(filePath.toUri());
 		  if (!resource.exists() || !resource.isReadable()) {
               throw new FileNotFoundException("File not found or not readable: " + fileName);

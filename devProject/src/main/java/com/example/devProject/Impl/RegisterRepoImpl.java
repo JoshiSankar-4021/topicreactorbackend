@@ -7,7 +7,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.annotation.Persistent;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -168,5 +167,27 @@ public class RegisterRepoImpl implements RegistrationRepo {
 		        session.close();
 		    }
 		}
+	}
+
+	@Override
+	public void save(Registration registration) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveuser(String firstName, String lastName, String phnum, String address, String gender,
+			String password, boolean physicallyHandicaped, boolean legalIssues, LocalDate dob, Integer age,
+			Integer education, String email, String profileImagePath) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void updateUser(Integer id, String firstName, String lastName, String phnum, String address, String gender,
+			String password, boolean physicallyHandicaped, boolean legalIssues, LocalDate dob, Integer age,
+			Integer education, String email, String profileImagePath) {
+		// TODO Auto-generated method stub
+		
 	}
 }
